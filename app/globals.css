@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-navy: #030b1f;
+  --color-cyan: #019ce3;
+  /* Brand cyan is #019CE3, which reads beautifully on the navy sections
+     (6.41:1) but only hits 3.06:1 on white/light backgrounds — a real AA
+     failure for the many small eyebrow labels and links that sit on light
+     sections. This darker, same-family cyan is for exactly that case
+     (5.09:1 on white); the original --color-cyan is unchanged for use on
+     dark backgrounds, large bold numerals, and non-text/icon accents. */
+  --color-cyan-text: #0075aa;
+  --color-blue: #1a96d3;
+  /* Brand red is #F52F3E, but at 3.92:1 it fails WCAG AA (4.5:1) for the
+     white button/error text set on/in it everywhere in this site. Every
+     use of --color-red in this project carries text, so per the brief's
+     own accessibility exception (Section 4), this is a ~10% darkened,
+     same-hue red that clears 4.5:1 while still reading as the brand red.
+     Decorative-only accents (e.g. the hero's diagonal overlay) use the
+     literal brand hex directly via rgba(), not this variable, so the
+     original brand red is still visible in the UI. */
+  --color-red: #dc2a37;
+  --color-red-brand: #f52f3e;
+  --color-white: #ffffff;
+  --color-background: #f4f8fb;
+  --color-surface-dark: #08152e;
+  --color-text: #0b1730;
+  /* Brand muted-text is #64748B, which clears 4.5:1 against white (4.76:1)
+     but falls just short against the light background #F4F8FB (4.46:1).
+     This is a ~5% darkened version of the same color that clears AA on
+     both surfaces — see the --color-red comment above for the same
+     accessibility exception this falls under. */
+  --color-muted: #5f6e84;
+  --color-border: #d9e5ed;
+
+  --font-heading: var(--font-space-grotesk);
+  --font-body: var(--font-inter);
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  color: var(--color-text);
+  background: var(--color-background);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.01em;
+}
+
+/* Visible keyboard focus everywhere, no exceptions */
+:focus-visible {
+  outline: 2px solid var(--color-cyan);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.container-page {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .container-page {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
