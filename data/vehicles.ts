@@ -1,10 +1,12 @@
 /**
- * Sample vehicle data for layout/demo purposes only.
+ * Real featured vehicles, as supplied by the client.
  *
- * IMPORTANT: `isSampleData: true` on every entry means this is NOT real
- * inventory. Replace this file's contents with actual stock, real prices,
- * real descriptions, and real photography before launch — never present
- * sample vehicles as available cars.
+ * A few fields below are marked inline where the client's description
+ * didn't specify an exact value (e.g. exact mileage, engine cc, or
+ * import/location status) — per the brief's rule against inventing
+ * business information, these use `undefined`/a documented default
+ * rather than a fabricated number. Confirm and fill these in with the
+ * client before this goes live.
  */
 
 export type Fuel = "Petrol" | "Diesel" | "Hybrid" | "Electric";
@@ -18,154 +20,165 @@ export type Vehicle = {
   make: string;
   model: string;
   year: number;
-  mileageKm: number;
+  /** Exact mileage in km, when known. */
+  mileageKm?: number;
+  /** Client-provided mileage as given (e.g. "20,xxx km"), when an exact
+   *  figure wasn't supplied. Takes display priority over mileageKm. */
+  mileageNote?: string;
   fuel: Fuel;
   transmission: Transmission;
-  engineCc: number;
+  /** Engine size in cc, when stated. */
+  engineCc?: number;
   bodyType: BodyType;
+  color?: string;
+  /** Internal stock reference, when the client provided one. */
+  stockId?: string;
   location: string;
   priceKes: number;
   availability: Availability;
   importStatus: ImportStatus;
   description: string;
   features: string[];
+  /** Photo count used only as a placeholder-slide count when `images` isn't set yet. */
   photoCount: number;
-  isSampleData: true;
+  /** Paths under /public/vehicles/, in display order. First is the card/cover photo. */
+  images?: string[];
 };
+
+// Location and import status were not specified by the client for these
+// four vehicles. Defaulting to Nairobi / Locally available since that's
+// where the business is based and these are presented as current
+// showroom stock — confirm with the client and correct if any of these
+// are actually still in transit/import.
+const DEFAULT_LOCATION = "Nairobi";
+const DEFAULT_IMPORT_STATUS: ImportStatus = "Locally available";
 
 export const vehicles: Vehicle[] = [
   {
-    slug: "toyota-land-cruiser-prado-2021",
+    slug: "subaru-xv-2019",
+    make: "Subaru",
+    model: "XV",
+    year: 2019,
+    fuel: "Hybrid",
+    transmission: "Automatic",
+    engineCc: 2000,
+    bodyType: "Crossover",
+    color: "Black",
+    location: DEFAULT_LOCATION,
+    priceKes: 2650000,
+    availability: "Available",
+    importStatus: DEFAULT_IMPORT_STATUS,
+    description:
+      "Subaru XV E-Boxer (Hybrid), 2000cc GTE with Symmetrical AWD. Fully loaded with a black interior throughout.",
+    features: [
+      "E-Boxer hybrid system",
+      "Symmetrical AWD (GTE)",
+      "Black interior, fully loaded",
+      "Original Subaru alloy wheels",
+      "Rear spoiler",
+      "Roof rails",
+    ],
+    photoCount: 1,
+    images: ["/vehicles/subaru-xv-black.jpeg"],
+  },
+  {
+    slug: "toyota-land-cruiser-j250-2024",
     make: "Toyota",
-    model: "Land Cruiser Prado",
-    year: 2021,
-    mileageKm: 42000,
+    model: "Land Cruiser J250",
+    year: 2024,
+    mileageNote: "20,xxx km",
     fuel: "Diesel",
     transmission: "Automatic",
     engineCc: 2800,
     bodyType: "SUV",
-    location: "Nairobi",
-    priceKes: 9800000,
+    color: "Black",
+    stockId: "GD2895",
+    location: DEFAULT_LOCATION,
+    priceKes: 13999999,
     availability: "Available",
-    importStatus: "Locally available",
+    importStatus: DEFAULT_IMPORT_STATUS,
     description:
-      "A well-kept Prado with full service history and no accident record. Comfortable for long upcountry drives, with enough presence for daily business use.",
+      "2024 Land Cruiser J250, 2800cc turbo diesel. Seven-seater with brown leather seats and a full feature set.",
     features: [
-      "Leather seats",
-      "Reverse camera",
       "Sunroof",
-      "Alloy wheels",
+      "7 seater",
+      "Brown leather seats",
+      "Multifunction steering wheel",
       "Cruise control",
-      "Third-row seating",
-    ],
-    photoCount: 6,
-    isSampleData: true,
-  },
-  {
-    slug: "mercedes-benz-c200-2020",
-    make: "Mercedes-Benz",
-    model: "C200",
-    year: 2020,
-    mileageKm: 38500,
-    fuel: "Petrol",
-    transmission: "Automatic",
-    engineCc: 1500,
-    bodyType: "Sedan",
-    location: "Nairobi",
-    priceKes: 6200000,
-    availability: "Available",
-    importStatus: "Imported",
-    description:
-      "Imported and verified before listing. Clean interior, low mileage for its age, and the kind of ride that still feels new after the first year.",
-    features: [
-      "Leather seats",
-      "Ambient lighting",
+      "Push start",
       "Reverse camera",
-      "Keyless entry",
-      "Heated seats",
+      "Alloy wheels",
+      "LED headlights",
+      "4WD",
+    ],
+    photoCount: 1,
+    images: ["/vehicles/tyt-land-cruiser-2024.jpeg"],
+  },
+  {
+    slug: "toyota-rav4-hybrid-2019",
+    make: "Toyota",
+    model: "RAV4",
+    year: 2019,
+    mileageNote: "31,xxx km",
+    fuel: "Hybrid",
+    transmission: "Automatic",
+    bodyType: "SUV",
+    color: "Red",
+    stockId: "AX6325",
+    location: DEFAULT_LOCATION,
+    priceKes: 4600000,
+    availability: "Available",
+    importStatus: DEFAULT_IMPORT_STATUS,
+    description:
+      "Petrol-hybrid RAV4 with a fuel-efficient hybrid system, leather seats, and auto boot.",
+    features: [
+      "Sunroof",
+      "Leather seats",
+      "Auto boot",
+      "Multifunction steering wheel",
+      "Cruise control",
+      "Push start",
+      "Reverse camera",
+      "Alloy wheels",
+      "LED headlights",
+      "Fuel-efficient hybrid system",
+    ],
+    photoCount: 1,
+    images: ["/vehicles/tyt-rav4-hybrid-red.jpeg"],
+  },
+  {
+    slug: "toyota-crown-2023",
+    make: "Toyota",
+    model: "Crown (new shape)",
+    year: 2023,
+    mileageKm: 10000,
+    fuel: "Hybrid",
+    transmission: "Automatic",
+    engineCc: 2400,
+    bodyType: "Sedan",
+    location: DEFAULT_LOCATION,
+    priceKes: 6650000,
+    availability: "Available",
+    importStatus: DEFAULT_IMPORT_STATUS,
+    description:
+      "2023 Toyota Crown, new shape. Hybrid + turbo 2400cc petrol engine with very low mileage. Fully loaded.",
+    features: [
+      "Sunroof",
+      "Black & brown genuine leather seats",
+      "Seat memory",
+      "DVD/Bluetooth radio with back camera",
+      "Power boot",
+      "Original 2023 Crown rims",
+      "Fully loaded",
     ],
     photoCount: 5,
-    isSampleData: true,
-  },
-  {
-    slug: "mazda-cx-5-2019",
-    make: "Mazda",
-    model: "CX-5",
-    year: 2019,
-    mileageKm: 51000,
-    fuel: "Petrol",
-    transmission: "Automatic",
-    engineCc: 2000,
-    bodyType: "Crossover",
-    location: "Mombasa",
-    priceKes: 3400000,
-    availability: "Available",
-    importStatus: "Imported",
-    description:
-      "A practical, fuel-efficient crossover that's easy to park in the city and comfortable enough for weekend trips out of town.",
-    features: ["Reverse camera", "Alloy wheels", "Bluetooth audio", "Cruise control"],
-    photoCount: 5,
-    isSampleData: true,
-  },
-  {
-    slug: "subaru-forester-2020",
-    make: "Subaru",
-    model: "Forester",
-    year: 2020,
-    mileageKm: 46000,
-    fuel: "Petrol",
-    transmission: "Automatic",
-    engineCc: 2000,
-    bodyType: "SUV",
-    location: "Nairobi",
-    priceKes: 3900000,
-    availability: "Reserved",
-    importStatus: "Imported",
-    description:
-      "All-wheel drive as standard, which makes this a solid choice for Kenyan roads outside the city. Currently reserved, but similar units can be sourced.",
-    features: ["All-wheel drive", "Roof rails", "Reverse camera", "Alloy wheels"],
-    photoCount: 4,
-    isSampleData: true,
-  },
-  {
-    slug: "toyota-hilux-2022",
-    make: "Toyota",
-    model: "Hilux",
-    year: 2022,
-    mileageKm: 21000,
-    fuel: "Diesel",
-    transmission: "Manual",
-    engineCc: 2400,
-    bodyType: "Pickup",
-    location: "Nakuru",
-    priceKes: 5100000,
-    availability: "Available",
-    importStatus: "Locally available",
-    description:
-      "Low mileage, single owner, built for work. Ideal for business use where reliability matters more than comfort features.",
-    features: ["Tow bar", "Bed liner", "Central locking", "Fog lights"],
-    photoCount: 6,
-    isSampleData: true,
-  },
-  {
-    slug: "bmw-x3-2019",
-    make: "BMW",
-    model: "X3",
-    year: 2019,
-    mileageKm: 58000,
-    fuel: "Petrol",
-    transmission: "Automatic",
-    engineCc: 2000,
-    bodyType: "SUV",
-    location: "Nairobi",
-    priceKes: 4700000,
-    availability: "Available",
-    importStatus: "Imported",
-    description:
-      "A confident, well-equipped SUV that still drives tight at this mileage. Full inspection report available on request.",
-    features: ["Leather seats", "Panoramic sunroof", "Reverse camera", "Heated seats", "Keyless entry"],
-    photoCount: 5,
-    isSampleData: true,
+    images: [
+      "/vehicles/tyt-crown-front-left.jpeg",
+      "/vehicles/tyt-crown-front-right.jpeg",
+      "/vehicles/tyt-crown-back-left.jpeg",
+      "/vehicles/tyt-crown-back-right.jpeg",
+      "/vehicles/tyt-crown-interior-cp.jpeg",
+    ],
   },
 ];
 
@@ -190,4 +203,12 @@ export function formatKes(amount: number): string {
 
 export function formatKm(km: number): string {
   return `${new Intl.NumberFormat("en-KE").format(km)} km`;
+}
+
+/** Displays the client's mileage note verbatim when given, otherwise a
+ *  formatted exact figure, otherwise an honest "On request". */
+export function formatMileage(vehicle: Vehicle): string {
+  if (vehicle.mileageNote) return vehicle.mileageNote;
+  if (vehicle.mileageKm !== undefined) return formatKm(vehicle.mileageKm);
+  return "On request";
 }

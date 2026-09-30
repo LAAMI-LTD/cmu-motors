@@ -6,7 +6,7 @@ import {
   getVehicleBySlug,
   getSimilarVehicles,
   formatKes,
-  formatKm,
+  formatMileage,
 } from "@/data/vehicles";
 import { buildWhatsAppLink } from "@/data/site";
 import { buildMetadata } from "@/lib/seo";
@@ -29,7 +29,7 @@ export function generateMetadata({
   const title = `${vehicle.year} ${vehicle.make} ${vehicle.model}`;
   return buildMetadata({
     title,
-    description: `${title} — ${formatKm(vehicle.mileageKm)}, ${vehicle.fuel}, ${vehicle.transmission}. ${vehicle.location}, Kenya. ${formatKes(vehicle.priceKes)}.`,
+    description: `${title} — ${formatMileage(vehicle)}, ${vehicle.fuel}, ${vehicle.transmission}. ${vehicle.location}, Kenya. ${formatKes(vehicle.priceKes)}.`,
     path: `/cars/${vehicle.slug}`,
   });
 }
@@ -55,13 +55,15 @@ export default function VehicleDetailPage({
 
   const specs = [
     { label: "Year", value: vehicle.year },
-    { label: "Mileage", value: formatKm(vehicle.mileageKm) },
+    { label: "Mileage", value: formatMileage(vehicle) },
     { label: "Fuel", value: vehicle.fuel },
     { label: "Transmission", value: vehicle.transmission },
-    { label: "Engine", value: `${vehicle.engineCc} cc` },
+    ...(vehicle.engineCc ? [{ label: "Engine", value: `${vehicle.engineCc} cc` }] : []),
     { label: "Body type", value: vehicle.bodyType },
+    ...(vehicle.color ? [{ label: "Colour", value: vehicle.color }] : []),
     { label: "Location", value: vehicle.location },
     { label: "Import status", value: vehicle.importStatus },
+    ...(vehicle.stockId ? [{ label: "Stock ID", value: vehicle.stockId }] : []),
   ];
 
   return (
@@ -80,6 +82,7 @@ export default function VehicleDetailPage({
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.4fr_1fr]">
           <div>
             <VehicleGallery
+              images={vehicle.images}
               photoCount={vehicle.photoCount}
               label={`${vehicle.make} ${vehicle.model}`}
             />

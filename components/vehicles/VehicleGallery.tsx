@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 const PATTERNS = [
@@ -10,36 +11,53 @@ const PATTERNS = [
 ];
 
 export function VehicleGallery({
+  images,
   photoCount,
   label,
 }: {
+  /** Real photo paths under /public/vehicles/, in display order. */
+  images?: string[];
+  /** Placeholder slide count, used only when `images` isn't supplied yet. */
   photoCount: number;
   label: string;
 }) {
   const [active, setActive] = useState(0);
-  const photos = Array.from({ length: photoCount });
+  const count = images?.length ?? photoCount;
+  const placeholderSlots = Array.from({ length: count });
 
   return (
     <div>
       <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-navy sm:aspect-[16/10]">
-        <div
-          className="absolute inset-0 opacity-90"
-          style={{ background: PATTERNS[active % PATTERNS.length] }}
-        />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-sm font-medium uppercase tracking-wide text-white/50">
-            Photo {active + 1} pending
-          </span>
-        </div>
+        {images?.[active] ? (
+          <Image
+            src={images[active]}
+            alt={`${label} — photo ${active + 1}`}
+            fill
+            className="object-cover"
+            priority={active === 0}
+          />
+        ) : (
+          <>
+            <div
+              className="absolute inset-0 opacity-90"
+              style={{ background: PATTERNS[active % PATTERNS.length] }}
+            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-sm font-medium uppercase tracking-wide text-white/50">
+                Photo {active + 1} pending
+              </span>
+            </div>
+          </>
+        )}
       </div>
 
-      {photoCount > 1 && (
+      {count > 1 && (
         <div
           className="mt-3 flex gap-2 overflow-x-auto pb-1"
           role="tablist"
           aria-label={`${label} photos`}
         >
-          {photos.map((_, i) => (
+          {placeholderSlots.map((_, i) => (
             <button
               key={i}
               type="button"
@@ -54,10 +72,19 @@ export function VehicleGallery({
                   : "border-border opacity-70 hover:opacity-100"
               )}
             >
-              <div
-                className="absolute inset-0"
-                style={{ background: PATTERNS[i % PATTERNS.length] }}
-              />
+              {images?.[i] ? (
+                <Image
+                  src={images[i]}
+                  alt={`${label} thumbnail ${i + 1}`}
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <div
+                  className="absolute inset-0"
+                  style={{ background: PATTERNS[i % PATTERNS.length] }}
+                />
+              )}
             </button>
           ))}
         </div>

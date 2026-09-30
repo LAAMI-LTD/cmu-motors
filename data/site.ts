@@ -17,13 +17,13 @@ export const siteConfig = {
 export const contact = {
   phone: { value: "0702 038 877", isPlaceholder: false },
   phoneHref: "tel:+254702038877",
-  email: { value: "simiyu51@gmail.com", isPlaceholder: false },
+  email: { value: "simiyub51@gmail.com", isPlaceholder: false },
   // Stored in international format (digits only after the '+') so
   // buildWhatsAppLink() below produces a correct wa.me link.
   whatsappNumber: { value: "+254 787 480 175", isPlaceholder: false },
   address: { value: "Kerarapon Drive, off Ngong Road, Karen, Nairobi", isPlaceholder: false },
   // Not yet supplied — keep as a flagged placeholder until confirmed.
-  hours: { value: "[BUSINESS HOURS]", isPlaceholder: true },
+  hours: { value: "Mon – Sat, 8:00 AM – 5:00 PM", isPlaceholder: false },
 } as const;
 
 export const social = {

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Vehicle, formatKes, formatKm } from "@/data/vehicles";
+import Image from "next/image";
+import { Vehicle, formatKes, formatMileage } from "@/data/vehicles";
 import { cn } from "@/lib/utils";
 
 const availabilityStyles: Record<Vehicle["availability"], string> = {
@@ -11,7 +12,7 @@ const availabilityStyles: Record<Vehicle["availability"], string> = {
 export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
   const specs = [
     { label: "Year", value: vehicle.year },
-    { label: "Mileage", value: formatKm(vehicle.mileageKm) },
+    { label: "Mileage", value: formatMileage(vehicle) },
     { label: "Fuel", value: vehicle.fuel },
     { label: "Transmission", value: vehicle.transmission },
   ];
@@ -19,19 +20,30 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
   return (
     <article className="group flex flex-col overflow-hidden rounded-lg border border-border bg-white shadow-card transition-shadow hover:shadow-lg">
       <div className="relative aspect-[4/3] overflow-hidden bg-navy">
-        {/* Placeholder photo treatment — replace with real vehicle photography */}
-        <div
-          className="absolute inset-0 opacity-90"
-          style={{
-            background:
-              "repeating-linear-gradient(115deg, #08152e 0px, #08152e 40px, #0b1f42 40px, #0b1f42 80px)",
-          }}
-        />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-xs font-medium uppercase tracking-wide text-white/50">
-            Photo pending
-          </span>
-        </div>
+        {vehicle.images?.[0] ? (
+          <Image
+            src={vehicle.images[0]}
+            alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
+            fill
+            className="object-cover"
+          />
+        ) : (
+          <>
+            {/* Placeholder photo treatment — replace with real vehicle photography */}
+            <div
+              className="absolute inset-0 opacity-90"
+              style={{
+                background:
+                  "repeating-linear-gradient(115deg, #08152e 0px, #08152e 40px, #0b1f42 40px, #0b1f42 80px)",
+              }}
+            />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-xs font-medium uppercase tracking-wide text-white/50">
+                Photo pending
+              </span>
+            </div>
+          </>
+        )}
         <span
           className={cn(
             "absolute left-3 top-3 rounded px-2.5 py-1 text-xs font-semibold",

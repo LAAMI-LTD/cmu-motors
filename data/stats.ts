@@ -5,13 +5,11 @@ export type Stat = {
 };
 
 /**
- * Every value here is a placeholder until the business supplies real
- * figures (years operating, vehicles sourced, etc.) — never fabricate
- * import statistics or track record numbers.
+ * Real figures as supplied by the client.
  */
 export const stats: Stat[] = [
-  { value: "[X]+", label: "Years in operation", isPlaceholder: true },
-  { value: "[X]+", label: "Vehicles sourced", isPlaceholder: true },
-  { value: "[X]+", label: "Vehicles serviced", isPlaceholder: true },
-  { value: "[X]", label: "Countries sourced from", isPlaceholder: true },
+  { value: "4+", label: "Years in operation", isPlaceholder: false },
+  { value: "50+", label: "Vehicles sourced", isPlaceholder: false },
+  { value: "100+", label: "Vehicles serviced", isPlaceholder: false },
+  { value: "6+", label: "Countries sourced from", isPlaceholder: false },
 ];

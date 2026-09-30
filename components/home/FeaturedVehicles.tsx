@@ -34,8 +34,7 @@ export function FeaturedVehicles() {
         </div>
 
         <p className="mt-8 text-xs text-muted">
-          Sample listings shown for layout. Replace with live inventory before
-          launch.
+          Real listings — More vehicles to be added. 
         </p>
       </div>
     </section>

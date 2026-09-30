@@ -70,7 +70,9 @@ export function CarsExplorer() {
       newest: (a, b) => b.year - a.year,
       "price-asc": (a, b) => a.priceKes - b.priceKes,
       "price-desc": (a, b) => b.priceKes - a.priceKes,
-      "mileage-asc": (a, b) => a.mileageKm - b.mileageKm,
+      "mileage-asc": (a, b) =>
+        (a.mileageKm ?? Number.POSITIVE_INFINITY) -
+        (b.mileageKm ?? Number.POSITIVE_INFINITY),
     };
 
     return [...filtered].sort(sorters[sort]);
@@ -262,8 +264,7 @@ export function CarsExplorer() {
           )}
 
           <p className="mt-8 text-xs text-muted">
-            Sample listings shown for layout. Replace with live inventory
-            before launch.
+            Real listings — More vehicles to be added. 
           </p>
         </div>
       </div>
