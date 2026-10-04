@@ -33,6 +33,7 @@ export function VehicleGallery({
             src={images[active]}
             alt={`${label} — photo ${active + 1}`}
             fill
+            sizes="(max-width: 1023px) 100vw, 55vw"
             className="object-cover"
             priority={active === 0}
           />
@@ -77,6 +78,7 @@ export function VehicleGallery({
                   src={images[i]}
                   alt={`${label} thumbnail ${i + 1}`}
                   fill
+                  sizes="80px"
                   className="object-cover"
                 />
               ) : (

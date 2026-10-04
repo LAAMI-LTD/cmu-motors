@@ -25,6 +25,7 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
             src={vehicle.images[0]}
             alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
             fill
+            sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, (max-width: 1279px) 40vw, 30vw"
             className="object-cover"
           />
         ) : (
